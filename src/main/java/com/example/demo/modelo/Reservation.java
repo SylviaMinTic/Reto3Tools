@@ -14,7 +14,7 @@ public class Reservation {
     private Integer idReservation;
     private Date startDate;
     private Date devolutionDate;
-    private String Status = "created";
+    private String status = "created";
 
     @ManyToOne
     @JoinColumn(name = "toolid")
@@ -55,11 +55,11 @@ public class Reservation {
     }
 
     public String getStatus() {
-        return Status;
+        return status;
     }
 
     public void setStatus(String status) {
-        Status = status;
+        status = status;
     }
 
     public Tool getTool() {

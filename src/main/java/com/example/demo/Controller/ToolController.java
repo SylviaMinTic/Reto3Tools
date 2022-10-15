@@ -10,7 +10,7 @@ import java.util.List;
 import java.util.Optional;
 
 @RestController
-@RequestMapping("/api/Cloud")
+@RequestMapping("/api/Tool")
 public class ToolController {
     @Autowired
     private ToolService toolService;
