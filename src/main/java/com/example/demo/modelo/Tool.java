@@ -21,14 +21,12 @@ public class Tool {
     @JoinColumn(name = "categoryId")
     @JsonIgnoreProperties("tools")
     private Category category;
-
-    @OneToMany(cascade = {CascadeType.PERSIST}, mappedBy = "tool")
-    @JsonIgnoreProperties({"tool", "message"})
-    public List<Reservation> reservations;
-
     @OneToMany(cascade = {CascadeType.PERSIST}, mappedBy = "tool")
     @JsonIgnoreProperties({"tool", "client"})
     private List<Message> messages;
+    @OneToMany(cascade = {CascadeType.PERSIST}, mappedBy = "tool")
+    @JsonIgnoreProperties({"tool", "message"})
+    public List<Reservation> reservations;
 
     public Integer getId() {
         return id;
