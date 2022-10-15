@@ -2,8 +2,12 @@ package com.example.demo;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.boot.autoconfigure.domain.EntityScan;
+import org.springframework.data.jdbc.repository.config.EnableJdbcRepositories;
 
-@SpringBootApplication
+@SpringBootApplication(scanBasePackages = {"Controller", "modelo", "repositorio", "servicio"})
+@EntityScan("com/example/demo/modelo")
+@EnableJdbcRepositories("repositorio")
 public class Reto3ToolsCiclo3Application {
 
 	public static void main(String[] args) {
