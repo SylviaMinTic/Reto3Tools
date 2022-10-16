@@ -1,5 +1,6 @@
 package com.example.demo.servicio;
 
+import com.example.demo.modelo.Client;
 import com.example.demo.modelo.Score;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -19,29 +20,35 @@ public class ScoreService {
         return scoreRepository.getScore(id);
     }
     public Score save (Score score){
-        if(score.getIdScore()==null){
-            return scoreRepository.save(score);
-        }else{
-            Optional<Score> scoreEncontrado = getScore(score.getIdScore());
-            if(scoreEncontrado.isEmpty()){
+        if (validarCampos(score)){
+            if(score.getIdScore()==null){
                 return scoreRepository.save(score);
             }else{
-                return score;
+                Optional<Score> scoreEncontrado = getScore(score.getIdScore());
+                if(scoreEncontrado.isEmpty()){
+                    return scoreRepository.save(score);
+                }else{
+                    return score;
+                }
             }
         }
+        return score;
     }
     public Score update (Score score){
-        if(score.getIdScore()!=null){
-            Optional<Score> scoreEncontrado = getScore(score.getIdScore());
-            if(!scoreEncontrado.isEmpty()){
-                if(score.getMessageText()!=null){
-                    scoreEncontrado.get().setMessageText(score.getMessageText());
+        if (validarCampos(score)){
+            if(score.getIdScore()!=null){
+                Optional<Score> scoreEncontrado = getScore(score.getIdScore());
+                if(!scoreEncontrado.isEmpty()){
+                    if(score.getMessageText()!=null){
+                        scoreEncontrado.get().setMessageText(score.getMessageText());
+                    }
+                    if(score.getStars()!=null){
+                        scoreEncontrado.get().setStars(score.getStars());
+                    }
+                    return scoreRepository.save(scoreEncontrado.get());
                 }
-                if(score.getStars()!=null){
-                    scoreEncontrado.get().setStars(score.getStars());
-                }
-                return scoreRepository.save(scoreEncontrado.get());
             }
+            return score;
         }
         return score;
     }
@@ -52,5 +59,7 @@ public class ScoreService {
         }).orElse(false);
         return respuesta;
     }
-
+    public boolean validarCampos(Score score){
+        return ((score.getStars()>=0 && score.getStars() <=5) && score.getMessageText().length()<=250);
+    }
 }

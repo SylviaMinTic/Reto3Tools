@@ -1,4 +1,4 @@
-package Security;
+package com.example.demo.Security;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;

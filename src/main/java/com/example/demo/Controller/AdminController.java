@@ -28,4 +28,15 @@ public class AdminController {
     public Admin save (@RequestBody Admin admin){
         return adminService.save(admin);
     }
+
+    @PutMapping("/update")
+    @ResponseStatus(HttpStatus.CREATED)
+    public Admin update (@RequestBody Admin admin){
+        return adminService.update(admin);
+    }
+    @DeleteMapping("/{id}")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    public boolean delete (@PathVariable("id") int id){
+        return adminService.delete(id);
+    }
 }

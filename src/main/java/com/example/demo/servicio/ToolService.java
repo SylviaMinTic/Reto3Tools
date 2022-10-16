@@ -20,39 +20,45 @@ public class ToolService {
         return toolRepository.getTool(id);
     }
     public Tool save (Tool tool){
-        if(tool.getId()==null){
-            return toolRepository.save(tool);
-        }else{
-            Optional<Tool> toolEncontrado = getTool(tool.getId());
-            if(toolEncontrado.isEmpty()){
+        if (validarCampos(tool)){
+            if(tool.getId()==null){
                 return toolRepository.save(tool);
             }else{
-                return tool;
+                Optional<Tool> toolEncontrado = getTool(tool.getId());
+                if(toolEncontrado.isEmpty()){
+                    return toolRepository.save(tool);
+                }else{
+                    return tool;
+                }
             }
         }
+        return tool;
     }
     public Tool update (Tool tool){
-        if(tool.getId() !=null){
-            Optional<Tool> toolEncontrado = getTool(tool.getId());
-            if (!toolEncontrado.isEmpty()){
-                if(tool.getName()!=null){
-                    toolEncontrado.get().setName(tool.getName());
+        if (validarCampos(tool)){
+            if(tool.getId() !=null){
+                Optional<Tool> toolEncontrado = getTool(tool.getId());
+                if (!toolEncontrado.isEmpty()){
+                    if(tool.getName()!=null){
+                        toolEncontrado.get().setName(tool.getName());
+                    }
+                    if(tool.getBrand()!=null){
+                        toolEncontrado.get().setBrand(tool.getBrand());
+                    }
+                    if(tool.getYear()!=null){
+                        toolEncontrado.get().setYear(tool.getYear());
+                    }
+                    if(tool.getDescription()!=null){
+                        toolEncontrado.get().setDescription(tool.getDescription());
+                    }
+                    if(tool.getCategory()!=null){
+                        toolEncontrado.get().setCategory(tool.getCategory());
+                    }
+                    return toolRepository.save(toolEncontrado.get());
                 }
-                if(tool.getBrand()!=null){
-                    toolEncontrado.get().setBrand(tool.getBrand());
-                }
-                if(tool.getYear()!=null){
-                    toolEncontrado.get().setYear(tool.getYear());
-                }
-                if(tool.getDescription()!=null){
-                    toolEncontrado.get().setDescription(tool.getDescription());
-                }
-                if(tool.getCategory()!=null){
-                    toolEncontrado.get().setCategory(tool.getCategory());
-                }
-                return toolRepository.save(toolEncontrado.get());
-            }
 
+            }
+            return tool;
         }
         return tool;
     }
@@ -62,5 +68,9 @@ public class ToolService {
             return true;
         }).orElse(false);
         return respuesta;
+    }
+    public boolean validarCampos(Tool tool){
+        return (tool.getBrand().length() <=45 && tool.getName().length()<= 45 &&
+                String.valueOf(tool.getYear()).length()==4 && tool.getDescription().length()<=250);
     }
 }

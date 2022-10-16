@@ -1,5 +1,6 @@
 package com.example.demo.servicio;
 
+import com.example.demo.modelo.Client;
 import com.example.demo.modelo.Message;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -20,27 +21,32 @@ public class MessageService {
         return messageRepository.getMessage(id);
     }
     public Message save (Message message){
-        if(message.getIdMessage()==null){
-            return messageRepository.save(message);
-        }else{
-            Optional<Message> messageEncontrado = getMessage(message.getIdMessage());
-            if(messageEncontrado.isEmpty()){
+        if(validarCampos(message)){
+            if(message.getIdMessage()==null){
                 return messageRepository.save(message);
             }else{
-                return message;
+                Optional<Message> messageEncontrado = getMessage(message.getIdMessage());
+                if(messageEncontrado.isEmpty()){
+                    return messageRepository.save(message);
+                }else{
+                    return message;
+                }
             }
         }
+        return message;
     }
     public Message update (Message message){
-        if(message.getIdMessage()!=null){
-            Optional<Message> messageEncontrado = getMessage(message.getIdMessage());
-            if(!messageEncontrado.isEmpty()){
-                if(message.getMessageText()!=null){
-                    messageEncontrado.get().setMessageText(message.getMessageText());
+        if(validarCampos(message)){
+            if(message.getIdMessage()!=null){
+                Optional<Message> messageEncontrado = getMessage(message.getIdMessage());
+                if(!messageEncontrado.isEmpty()){
+                    if(message.getMessageText()!=null){
+                        messageEncontrado.get().setMessageText(message.getMessageText());
+                    }
+                    return messageRepository.save(messageEncontrado.get());
                 }
-                return messageRepository.save(messageEncontrado.get());
             }
-
+            return message;
         }
         return message;
     }
@@ -50,5 +56,8 @@ public class MessageService {
             return true;
         }).orElse(false);
         return respuesta;
+    }
+    public boolean validarCampos(Message message){
+        return (message.getMessageText().length() <=250);
     }
 }

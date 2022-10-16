@@ -1,5 +1,6 @@
 package com.example.demo.Controller;
 
+import com.example.demo.modelo.Admin;
 import com.example.demo.modelo.Tool;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -28,6 +29,17 @@ public class ToolController {
     @ResponseStatus(HttpStatus.CREATED)
     public Tool save (@RequestBody Tool tool) {
         return toolService.save(tool);
+    }
+
+    @PutMapping("/update")
+    @ResponseStatus(HttpStatus.CREATED)
+    public Tool update (@RequestBody Tool tool){
+        return toolService.update(tool);
+    }
+    @DeleteMapping("/{id}")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    public boolean delete (@PathVariable("id") int id){
+        return toolService.delete(id);
     }
 
 }
