@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/html">
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" type="text/css" href="/webjars/bootstrap/css/bootstrap.min.css"/>
+    <script type="text/javascript" src="/webjars/jquery/jquery.min.js"></script>
+    <script type="text/javascript" src="/webjars/bootstrap/js/bootstrap.min.js"></script>
+    <title>Tools</title>
+</head>
+<body>
+<h1> Bienvenidos a Herramientas !</h1>
+
+    <div class="container unauthenticated">
+        Para iniciar sesion haz click <a href="/oauth2/authorization/github">aqui</a>
+
+    </div>
+
+    <div class="container authenticated" style="display: none">
+    Ha sido autenticado: <span id="usuario"></span>
+        <button onclick="location.href='homePage.html';">Continuar</button>
+
+    </div>
+</body>
+<script type="text/javascript">
+    $.get("/user", function (data){
+        $("#usuario").html(data.name);
+        $(".unauthenticated").hide();
+        $(".authenticated").show();
+    });
+</script>
+</html>
